@@ -1,0 +1,37 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+html {
+  box-sizing: border-box;
+  height: 100%;
+  scroll-behavior: smooth;
+  background: silver;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*::before,
+*::after {
+  box-sizing: inherit;
+
+}
+
+html, body {
+    height: 100%;
+    font: 14px/20px "Lato", Arial, sans-serif;
+    transform: translate3d(0, 0, 0);
+    overflow: hidden;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.profile-photo {
+  display: flex;
+  flex-direction: row;
+
+}
+
