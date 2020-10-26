@@ -9,8 +9,8 @@
 .user-info {
   display: flex;
   flex-direction: row;
-  width: 250px;
-  background: #f5f5f5;
+  width: 350px;
+  background: whitesmoke;
   padding: 20px;
   border-top-left-radius: 8px;
 }
@@ -37,6 +37,7 @@
     align-items: center;
     width: 100%;
     margin-bottom: 5px;
+
   }
 }
 
@@ -51,7 +52,7 @@
   flex-direction: column;
   height: 650px;
   width: 650px;
-  background: #f5f5f5;
+  background: whitesmoke;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 }
@@ -60,7 +61,7 @@
   flex-direction: column;
   padding: 0 0 0 10px;
   height: 450px;
-  background: #fafafa;
+  background: $light-gray;
   overflow-y: auto;
   overflow-x: hidden;
   border-bottom-left-radius: 8px;
@@ -80,32 +81,20 @@
 }
 
 .message p {
-  border-radius: 1em;
+  border-radius: 2em;
   padding: 0.5em;
-  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .message.agent {
   position: relative;
 }
 
-.message.agent::after {
-  content: "";
-  position: absolute;
-  left: -15px;
-  bottom: 1em;
-  border: 0 solid transparent;
-  border-top: 9px solid var(--primary);
-  border-radius: 0 20px 0;
-  width: 15px;
-  height: 30px;
-  transform: rotate(145deg);
-}
-
 .message.agent p {
-  background-color: #3f4255;
+  background-color: $dark-blue;
   color: white;
-  border-radius: 1em;
+  border-radius: 2em;
+  padding: 1em;
 }
 
 .message.input {
@@ -113,29 +102,16 @@
   align-self: flex-end;
 }
 
-.message.input::after {
-  content: "";
-  position: absolute;
-  right: -15px;
-  bottom: 1em;
-  border: 0 solid transparent;
-  border-top: 9px solid var(--secondary);
-  border-radius: 0 20px 0;
-  width: 15px;
-  height: 30px;
-  transform: rotate(45deg) scaleY(-1);
-
-}
 
 .message.input p {
-  background-color: #dddddd;
+  background-color: $dark-gray;
   text-align: right;
-  color: #5d5d5d;
+  color: $base-color;
+  padding: 1em;
 }
 
 .controls {
   padding: 2em;
-  border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 form {
@@ -167,7 +143,6 @@ input[type=text] {
 
 [type="submit"] {
   margin-left: -60px;
-
   width: 50px;
   background-image: url('../../assets/plane.png');
   background-color: transparent;
@@ -177,7 +152,6 @@ input[type=text] {
   text-align: center;
   color: white;
   border: 0;
-
 }
 
 ul {
@@ -186,6 +160,12 @@ ul {
   li {
     padding: 10px 0 10px 5px;
     border-bottom: 1px solid lightgray !important;
+    &:hover {
+      background: whitesmoke;
+    }
+    &.is-active {
+      background-color: $dark-gray;
+    }
   }
 }
 
@@ -198,7 +178,7 @@ img {
 
 .about {
   float: left;
-  margin-top: 8px;
+  margin-top: 5px;
 }
 
 .about {
@@ -206,7 +186,18 @@ img {
 }
 
 .text-message {
-  color: #92959E;
+  color: $base-color;
+
+  .date {
+    font-size: 0.8em;
+    margin: 0.5em 1em 0 1em;
+  }
+}
+
+.last-message {
+  float: right;
+  font-size: 0.8em;
+  margin: 0.5em 1em 0 0;
 }
 
 .clearfix:after {
@@ -217,12 +208,13 @@ img {
   clear: both;
   height: 0;
   border-bottom-left-radius: 8px;
+
 }
 
 .search {
   display: flex;
   flex-direction: row;
-  background: #f5f5f5;
+  background: whitesmoke;
   padding: 10px;
 }
 
