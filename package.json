@@ -1,14 +1,24 @@
 {
   "name": "angular-chat",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Chatbot application using Angular and chuknorris jokes API",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "ruslan pylypchuk",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.10"
+  },
+  "dev-dependencies": {
+    "nodemon": "^2.0.6",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
   }
 }
