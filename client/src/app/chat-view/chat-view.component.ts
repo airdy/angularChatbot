@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {BotsService} from "../bots.service";
+import {ChatsService} from "../chats.service";
 import {Message} from "../models/message.model";
 import {Bots} from "../models/bots.model";
+
 
 @Component({
   selector: 'app-chat-view',
@@ -11,18 +12,18 @@ import {Bots} from "../models/bots.model";
 })
 export class ChatViewComponent implements OnInit {
 
-  bots: Bots;
-  messages: Message;
+  bots: Bots[];
+  messages: Message[];
   botsId: string;
 
-  constructor(private botsService: BotsService, private route: ActivatedRoute, private router: Router) {
+  constructor(private chatsService: ChatsService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(
       (params: Params) => {
         console.log(params);
-        this.botsService.getMessages(params.botsId).subscribe((messages: Message) => {
+        this.chatsService.getMessages(params.botsId).subscribe((messages: Message[]) => {
           this.messages = messages;
         })
       }
@@ -34,14 +35,13 @@ export class ChatViewComponent implements OnInit {
       }
     )
 
-    this.botsService.getBots().subscribe((bots: Bots) => {
+    this.chatsService.getBots().subscribe((bots: Bots[]) => {
       this.bots = bots;
     })
   }
-  addNewMessage(value: string){
-    this.botsService.addMessages(value, this.botsId).subscribe((newMessage:Message) =>{
-      this.router.navigate(['/'], { relativeTo: this.route });
-    })
-  }
-
+    addNewMessage(value: string){
+      this.chatsService.addMessages(value, this.botsId).subscribe((newMessage: Message[]) => {
+        console.log(newMessage);
+      })
+    }
 }

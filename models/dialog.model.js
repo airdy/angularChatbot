@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const DialogsSchema = new Schema({
     value: {
         type: String
@@ -9,8 +10,8 @@ const DialogsSchema = new Schema({
         default: Date.now()
     },
     _botsId: {
-        ref: 'bots',
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        required: true
     }
 });
 

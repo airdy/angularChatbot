@@ -4,9 +4,9 @@ import {WebRequestsService} from "./web-requests.service";
 @Injectable({
   providedIn: 'root'
 })
-export class BotsService {
+export class ChatsService {
 
-  constructor(private webRequestService: WebRequestsService) {
+  constructor(private webRequestService: WebRequestsService){
   }
 
   getBots() {
@@ -20,4 +20,5 @@ export class BotsService {
   addMessages(value: string, botsId: string) {
     return this.webRequestService.post(`${botsId}/chats`, {value})
   }
+
 }
