@@ -17,61 +17,11 @@
     <div class="chat-list">
       <div class="list-menu">
         <ul class="list-menu-item">
-          <li class="clearfix is-active">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
+          <li class="clearfix" *ngFor="let bots of bots" [routerLink]="['/', bots._id]" routerLinkActive="is-active">
+            <img src="{{ bots.img }}" alt="avatar"/>
+            <div class="last-message">14 Feb 20</div>
             <div class="about">
-              <div class="name">Alice Weerman</div>
-              <div class="text-message">
-                Sorry, i'm busy rn.
-              </div>
-            </div>
-          </li>
-          <li class="clearfix">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
-            <div class="about">
-              <div class="name">John Skywalker</div>
-              <div class="text-message">
-                Let's start!
-              </div>
-            </div>
-          </li>
-          <li class="clearfix">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
-            <div class="about">
-              <div class="name">John Skywalker</div>
-              <div class="text-message">
-                Let's start!
-              </div>
-            </div>
-          </li>
-          <li class="clearfix">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
-            <div class="about">
-              <div class="name">John Skywalker</div>
-              <div class="text-message">
-                Let's start!
-              </div>
-            </div>
-          </li>
-          <li class="clearfix">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
-            <div class="about">
-              <div class="name">John Skywalker</div>
-              <div class="text-message">
-                Let's start!
-              </div>
-            </div>
-          </li>
-          <li class="clearfix">
-            <img src="assets/woman.png" alt="avatar"/>
-            <div class="last-message">20 Jun 2020</div>
-            <div class="about">
-              <div class="name">John Skywalker</div>
+              <div class="name">{{ bots.name }}</div>
               <div class="text-message">
                 Let's start!
               </div>
@@ -93,72 +43,23 @@
       <div class="messages">
         <div class="message agent" data-message-id="0"><p>Hello! My name is James, how can I help you today?</p></div>
         <div class="text-message">
-          <div class="date">
+          <div class="date-left">
             20/06/20 9:48 PM
           </div>
         </div>
-        <div class="message input" data-message-id="1"><p>omg the world is burning!!! send halpppp!!</p></div>
-        <div class="text-message message input">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message agent" data-message-id="2"><p>Not to worry. What kind of help are you looking for?</p></div>
-        <div class="text-message">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message input" data-message-id="3"><p>THE KIND THAT WILL STOP ME FROM DYING???</p></div>
-        <div class="text-message message input">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message agent" data-message-id="4"><p>Sure thing, we can definitely help with that. Where should
-          we
-          send aforementioned help?</p></div>
-        <div class="text-message">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message input" data-message-id="5"><p>Where should we send aforementioned help?</p></div>
-        <div class="text-message message input">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message agent" data-message-id="6"><p>Sure thing we send aforementioned help?</p></div>
-        <div class="text-message">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message input" data-message-id="7"><p>We send aforementioned help?</p></div>
-        <div class="text-message message input">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message agent" data-message-id="8"><p>Sure thing we send aforementioned help?</p></div>
-        <div class="text-message">
-          <div class="date">
-            20/06/20 9:48 PM
-          </div>
-        </div>
-        <div class="message input" data-message-id="9"><p>We send aforementioned help?</p></div>
-        <div class="text-message message input">
-          <div class="date">
-            20/06/20 9:48 PM
+        <div class="message input" *ngFor="let message of messages"><p>{{message.value}}</p>
+          <div class="text-message message input">
+            <div class="date">
+              {{message.date | date: 'short'}}
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="controls">
       <form>
-        <input type="text" placeholder="Type your message">
-        <input type="submit" value="">
+        <input #messageInput type="text" placeholder="Type your message">
+        <input type="button" (click)="addNewMessage(messageInput.value)">
       </form>
     </div>
   </div>

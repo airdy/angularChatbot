@@ -3,7 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {ChatViewComponent} from './chat-view/chat-view.component';
 
 const routes: Routes = [
-  {path: '', component: ChatViewComponent}
+  {path: '', component: ChatViewComponent, pathMatch: 'full'},
+  {path: ':botsId', component: ChatViewComponent},
 ];
 
 @NgModule({

@@ -76,7 +76,7 @@
 }
 
 .message {
-  display: flex;
+  display: grid;
   align-items: center;
 }
 
@@ -88,6 +88,7 @@
 
 .message.agent {
   position: relative;
+  align-self: flex-start;
 }
 
 .message.agent p {
@@ -99,6 +100,7 @@
 
 .message.input {
   position: relative;
+  margin: 1em 0 0 0;
   align-self: flex-end;
 }
 
@@ -141,7 +143,7 @@ input[type=text] {
   border-radius: 20px;
 }
 
-[type="submit"] {
+[type="button"] {
   margin-left: -60px;
   width: 50px;
   background-image: url('../../assets/plane.png');
@@ -189,6 +191,13 @@ img {
   color: $base-color;
 
   .date {
+    position: absolute;
+    right: 0;
+    font-size: 0.8em;
+    margin: 0.5em 1em 0 1em;
+  }
+  .date-left {
+    position: absolute;
     font-size: 0.8em;
     margin: 0.5em 1em 0 1em;
   }
