@@ -60,9 +60,18 @@
       </div>
     </div>
     <div class="controls">
-      <form>
-        <input #messageInput type="text" placeholder="Type your message">
-        <input type="button" (click)="addNewMessage(messageInput.value)">
+      <form
+      (submit) = "handleSubmit()"
+      [formGroup] = "messageFormGroup">
+        <input
+          type="text" name = "message"
+          formControlName="value"
+          placeholder="Type your message">
+        <button
+          class="form-btn"
+          type = "submit">
+        </button>
+        <!--<input type="button" (click)="addNewMessage(messageInput.value)">-->
       </form>
     </div>
   </div>

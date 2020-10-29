@@ -7,6 +7,7 @@ import {ChatViewComponent} from './chat-view/chat-view.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TruncateModule} from "@yellowspot/ng-truncate";
 import {ChuckService} from "./services/chuck.service";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {ChuckService} from "./services/chuck.service";
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        TruncateModule
+        TruncateModule,
+        ReactiveFormsModule
     ],
   providers: [ChuckService],
   bootstrap: [AppComponent]

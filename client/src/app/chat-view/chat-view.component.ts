@@ -5,6 +5,9 @@ import {ChuckService} from "../services/chuck.service";
 import {Message} from "../models/message.model";
 import {Bots} from "../models/bots.model";
 import {Chuck} from "../models/chuck.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {catchError} from "rxjs/operators";
+import {throwError} from "rxjs";
 
 @Component({
   selector: 'app-chat-view',
@@ -17,14 +20,25 @@ export class ChatViewComponent implements OnInit {
   messages: Message[];
   botsId: string;
   jokes: Chuck[];
+  messageFormGroup: FormGroup;
+  error: any;
 
   constructor(private chatsService: ChatsService,
               private _chuckService: ChuckService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private formBuilder: FormBuilder) {
   }
 
-  ngOnInit(): void {
+  ngOnInit()  {
+    this.chatsService.chatRefresher$
+      .subscribe(() => {
+      this.getAllMessages();
+      });
+    this.getAllMessages();
+  }
+  private getAllMessages() {
+
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -44,28 +58,39 @@ export class ChatViewComponent implements OnInit {
     this.chatsService.getBots()
       .subscribe((bots: Bots[]) => {
         this.bots = bots;
-        this.mergeArrays()
+        //this.mergeArrays()
       })
 
+    this.messageFormGroup = this.formBuilder.group({
+      value: ""
+    })
 
   }
-    mergeArrays() {
-      let merged = [];
-      for(let i=0; i<this.bots.length; i++) {
-        merged.push({
+/*
+  mergeArrays() {
+    let merged = [];
+    for (let i = 0; i < this.bots.length; i++) {
+      merged.push({
           ...this.bots[i],
-          ...(this.messages.find((itmInner) => itmInner._botsId === this.messages[i]._id))}
-        );
-      }
-      console.log(merged);
-  }
+          ...(this.messages.find((itmInner) => itmInner._botsId === this.messages[i]._id))
+        }
+      );
+    }
+    console.log(merged);
+  }*/
 
-  addNewMessage(value: string) {
-    this.chatsService.addMessages(value, this.botsId)
-      .subscribe((newMessage: Message[]) => {
-        this.router.navigate([''], {relativeTo: this.route})
-        console.log(newMessage);
-      })
+  handleSubmit() {
+    this.chatsService.addMessages(this.messageFormGroup.value, this.botsId)
+      .subscribe(
+        messages => {
+          console.log(`Saved , ${JSON.stringify(messages)}`);
+          this.messageFormGroup.reset({name: ''});
+        },
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
+      )
     this._chuckService.getJoke()
       .subscribe(
         data => {
@@ -73,6 +98,12 @@ export class ChatViewComponent implements OnInit {
           console.log(data);
         }
       )
+    /*this.chatsService.addJoke(data ,this.botsId)
+      .subscribe(
+        jokes => {
+          console.log(`Joke added , ${JSON.stringify(jokes)}`);
+        }
+      )*/
   }
 
 }
