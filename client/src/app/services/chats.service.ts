@@ -14,11 +14,11 @@ export class ChatsService {
   }
 
   getMessages(botsId: string) {
-    return this.webRequestService.get(`${botsId}/chats`)
+    return this.webRequestService.get(`${botsId}`)
   }
 
   addMessages(value: string, botsId: string) {
-    return this.webRequestService.post(`${botsId}/chats`, {value})
+    return this.webRequestService.post(`${botsId}`, {value})
   }
 
 }
