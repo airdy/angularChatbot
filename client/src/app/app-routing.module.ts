@@ -3,7 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {ChatViewComponent} from './chat-view/chat-view.component';
 
 const routes: Routes = [
-  {path: '', component: ChatViewComponent, pathMatch: 'full'},
+  {path: '', redirectTo: '5f970d19834c161410edf4be', pathMatch: 'full'},
   {path: ':botsId', component: ChatViewComponent},
   {path: ':botsId/chats', component: ChatViewComponent},
 ];
