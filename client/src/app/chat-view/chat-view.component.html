@@ -43,19 +43,20 @@
     </ng-container>
     <div class="message-list">
       <div class="messages">
-        <div class="message agent" *ngFor="let joke of jokes | keyvalue">
-          <p *ngIf="joke.key=='value'">{{joke.value}}</p></div>
-        <div class="text-message" *ngFor="let joke of jokes | keyvalue">
-          <div class="date-left" *ngIf="joke.key=='updated_at'">
-            {{joke.value | date: 'short'}}
-          </div>
-        </div>
         <div class="message input" *ngFor="let message of messages"><p>{{message.value}}</p>
           <div class="text-message message input">
             <div class="date">
               {{message.date | date: 'short'}}
             </div>
           </div>
+        </div>
+        <div class="message agent" *ngFor="let message of jokes | keyvalue">
+          <p *ngIf="joke.key=='value'">{{joke.value}}</p>
+        <div class="text-message" *ngFor="let joke of jokes | keyvalue">
+          <div class="date-left" *ngIf="joke.key=='updated_at'">
+            {{joke.value | date: 'short'}}
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -71,7 +72,6 @@
           class="form-btn"
           type = "submit">
         </button>
-        <!--<input type="button" (click)="addNewMessage(messageInput.value)">-->
       </form>
     </div>
   </div>

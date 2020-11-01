@@ -30,13 +30,17 @@ export class ChatViewComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  ngOnInit()  {
+  ngOnInit() {
+
+    //automated refresher with stream Subject
     this.chatsService.chatRefresher$
       .subscribe(() => {
-      this.getAllMessages();
+        this.getAllMessages();
       });
     this.getAllMessages();
   }
+
+  //getting all messages in stream
   private getAllMessages() {
 
     this.route.params
@@ -45,40 +49,44 @@ export class ChatViewComponent implements OnInit {
           this.chatsService.getMessages(params.botsId).subscribe((messages: Message[]) => {
             this.messages = messages;
           })
-        }
+        },
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
       )
 
+    //subscription to changes in selected botsID routing
     this.route.params
       .subscribe(
         (params: Params) => {
           this.botsId = params['botsId'];
-        }
+        },
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
       )
 
+    //getting list of all bots
     this.chatsService.getBots()
       .subscribe((bots: Bots[]) => {
-        this.bots = bots;
-        //this.mergeArrays()
-      })
+          this.bots = bots;
+          //this.mergeArrays()
+        }, catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
+      )
 
+    //resetting form input
     this.messageFormGroup = this.formBuilder.group({
       value: ""
     })
 
   }
-/*
-  mergeArrays() {
-    let merged = [];
-    for (let i = 0; i < this.bots.length; i++) {
-      merged.push({
-          ...this.bots[i],
-          ...(this.messages.find((itmInner) => itmInner._botsId === this.messages[i]._id))
-        }
-      );
-    }
-    console.log(merged);
-  }*/
 
+  //submit form handler which adds new inputed message and getting bot message from external API
   handleSubmit() {
     this.chatsService.addMessages(this.messageFormGroup.value, this.botsId)
       .subscribe(
@@ -91,19 +99,19 @@ export class ChatViewComponent implements OnInit {
           return throwError(err);
         })
       )
+    setTimeout(() => this.jokeAdding(), 5000);
+  }
+  jokeAdding() {
     this._chuckService.getJoke()
       .subscribe(
         data => {
-          this.jokes = data;
-          console.log(data);
+          this.chatsService.addJoke(data, this.botsId)
+            .subscribe(
+              jokes => {
+                console.log(`Joke added , ${JSON.stringify(jokes)}`);
+              }
+            )
         }
       )
-    /*this.chatsService.addJoke(data ,this.botsId)
-      .subscribe(
-        jokes => {
-          console.log(`Joke added , ${JSON.stringify(jokes)}`);
-        }
-      )*/
   }
-
 }

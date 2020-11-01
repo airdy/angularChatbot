@@ -4,7 +4,7 @@ import {Message} from "../models/message.model";
 import {Bots} from "../models/bots.model";
 import {Chuck} from "../models/chuck.model";
 import {Observable, Subject} from "rxjs";
-import { tap } from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
 
 @Injectable({
@@ -35,13 +35,19 @@ export class ChatsService {
     return this.httpClient
       .post<Message[]>(`${this.ROOT_URL}/${botsId}`, message)
       .pipe(
-      tap(() => {
-        this._chatRefresher$.next();
-      })
+        tap(() => {
+          this._chatRefresher$.next();
+        })
       )
   }
 
   addJoke(joke: Chuck[], botsId: string): Observable<Chuck[]> {
-    return this.httpClient.post<Chuck[]>(`${this.ROOT_URL}/${botsId}`, joke)
+    return this.httpClient
+      .post<Chuck[]>(`${this.ROOT_URL}/${botsId}`, joke)
+      .pipe(
+        tap(() => {
+          this._chatRefresher$.next();
+        })
+      )
   }
 }
