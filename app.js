@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path')
 const cors = require('cors')
 const keys = require('./config/keys');
 const botsRoutes  = require('./routes/bot');
@@ -25,4 +26,14 @@ app.use(function(req, res, next) {
 app.use('/', botsRoutes);
 app.use('/', chatRoutes);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/dist/client'))
+    app.get('*', (req, res) => {
+        res.sendFile(
+            path.resolve(
+                __dirname, 'client', 'dist', 'client', 'index.html'
+            )
+        )
+    })
+}
 module.exports = app;
