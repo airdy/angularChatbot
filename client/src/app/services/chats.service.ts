@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Message} from "../models/message.model";
 import {Bots} from "../models/bots.model";
+import {Chuck} from "../models/chuck.model";
 import {Observable, Subject} from "rxjs";
 import {tap} from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +29,23 @@ export class ChatsService {
   getMessages(botsId: string) {
     return this.httpClient.get<Message[]>(`${this.ROOT_URL}/${botsId}`)
   }
+  getMessagesBySearch(term: string, botsId: string){
+    return this.httpClient.get<Message[]>(
+      `${this.ROOT_URL}/${botsId}`,{ params:  {searchTerm: term}})
+  }
 
   addMessages(message: Message[], botsId: string): Observable<Message[]> {
     return this.httpClient
       .post<Message[]>(`${this.ROOT_URL}/${botsId}`, message)
+      .pipe(
+        tap(() => {
+          this._chatRefresher$.next();
+        })
+      )
+  }
+  addJoke(joke: Chuck[], botsId: string): Observable<Chuck[]> {
+    return this.httpClient
+      .post<Chuck[]>(`${this.ROOT_URL}/${botsId}`, joke)
       .pipe(
         tap(() => {
           this._chatRefresher$.next();

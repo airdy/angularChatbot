@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ChatsService} from "../services/chats.service";
 import {ChuckService} from "../services/chuck.service";
 import {Message} from "../models/message.model";
 import {Bots} from "../models/bots.model";
 import {Chuck} from "../models/chuck.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {catchError} from "rxjs/operators";
+import {FormBuilder, FormGroup, NgModel} from "@angular/forms";
+import {catchError, debounceTime, distinctUntilChanged, tap} from "rxjs/operators";
 import {throwError} from "rxjs";
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat-view',
@@ -16,7 +16,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./chat-view.component.scss']
 })
 export class ChatViewComponent implements OnInit {
-
+  @ViewChild('filterInput', {static: true}) filterInput: NgModel;
+  searchTerm: string;
   bots: Bots[];
   messages: Message[];
   botsId: string;
@@ -34,8 +35,25 @@ export class ChatViewComponent implements OnInit {
 
   ngOnInit() {
 
+    //subscribing to changes in search input
+    this.filterInput.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(term => {
+        if (term) {
+          this.getMessageBySearch(term);
+        } else {
+          this.getAllMessages();
+        }
+      });
+
     //automated refresher with stream Subject
     this.chatsService.chatRefresher$
+      .pipe(
+        tap(() => this.filterInput.reset(null))
+      )
       .subscribe(() => {
         this.getAllMessages();
       });
@@ -44,7 +62,6 @@ export class ChatViewComponent implements OnInit {
 
   //getting all messages in stream
   private getAllMessages() {
-
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -87,6 +104,14 @@ export class ChatViewComponent implements OnInit {
     })
   }
 
+  //getting messages by input term
+  private getMessageBySearch(term: string) {
+    this.chatsService.getMessagesBySearch(term, this.botsId)
+      .subscribe(
+        (messages: Message[]) => this.messages = messages
+      )
+  }
+
   //submit form handler which adds new inputed message and getting bot message from external API
   handleSubmit() {
     this.chatsService.addMessages(this.messageFormGroup.value, this.botsId)
@@ -105,11 +130,13 @@ export class ChatViewComponent implements OnInit {
       this.toastr.success("You have new message")
     }, 10000);
   }
+
   jokeAdding() {
     this._chuckService.getJoke()
       .subscribe(
         data => {
-          this.chatsService.addMessages(data, this.botsId)
+          this.jokes = data;
+          this.chatsService.addJoke(data, this.botsId)
             .subscribe(
               jokes => {
                 console.log(`Joke added, ${JSON.stringify(jokes)}`);
@@ -118,6 +145,7 @@ export class ChatViewComponent implements OnInit {
         }
       )
   }
+
   ngOnDestroy() {
     if (this.chatsService.chatRefresher$) {
       this.chatsService.chatRefresher$.unsubscribe();

@@ -6,7 +6,7 @@ import {ChatViewComponent} from './chat-view/chat-view.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TruncateModule} from "@yellowspot/ng-truncate";
 import {ChuckService} from "./services/chuck.service";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
         HttpClientModule,
         TruncateModule,
         ReactiveFormsModule,
+        FormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot()
     ],

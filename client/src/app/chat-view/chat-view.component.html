@@ -6,8 +6,13 @@
         Alex
       </h1>
     </div>
-    <div class="search">
-      <input type="search" placeholder="Search or start new chat">
+    <div class = "search">
+      <input
+        [(ngModel)]="searchTerm"
+        name="searchTerm"
+        type="search"
+        placeholder="Search or start new chat"
+        #filterInput = "ngModel">
     </div>
     <div class="chat">
       <h1 class="title" style="color: deepskyblue; padding: 20px 0 20px 0">
@@ -50,11 +55,11 @@
             </div>
           </div>
         </div>
-        <div class="message agent" *ngFor="let message of messages">
-          <p *ngIf="message.value=='Chuck Norris'">{{message.value}}</p>
-        <div class="text-message">
-          <div class="date-left" *ngIf="message.value=='Chuck Norris'">
-            {{message.value | date: 'short'}}
+        <div class="message agent" *ngFor="let joke of jokes">
+          <ng-container>{{joke.value}}</ng-container>
+          <div class="text-message" *ngFor="let joke of jokes">
+            <div class="date-left">
+              {{joke.value | date: 'short'}}
           </div>
         </div>
         </div>

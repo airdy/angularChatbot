@@ -1,6 +1,6 @@
 export class Chuck {
-  id: string;
+  _id: string;
   url: string;
   value: string;
-  date: Date;
+  _botsId: string;
 }
