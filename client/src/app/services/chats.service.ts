@@ -13,7 +13,7 @@ export class ChatsService {
   readonly ROOT_URL;
 
   constructor(private httpClient: HttpClient) {
-    this.ROOT_URL = "http://localhost:3000"
+    this.ROOT_URL = "https://young-reef-59475.herokuapp.com/"
   }
 
   private _chatRefresher$ = new Subject<void>();
