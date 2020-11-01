@@ -50,11 +50,11 @@
             </div>
           </div>
         </div>
-        <div class="message agent" *ngFor="let message of jokes | keyvalue">
-          <p *ngIf="joke.key=='value'">{{joke.value}}</p>
-        <div class="text-message" *ngFor="let joke of jokes | keyvalue">
-          <div class="date-left" *ngIf="joke.key=='updated_at'">
-            {{joke.value | date: 'short'}}
+        <div class="message agent" *ngFor="let message of messages">
+          <p *ngIf="message.value=='Chuck Norris'">{{message.value}}</p>
+        <div class="text-message">
+          <div class="date-left" *ngIf="message.value=='Chuck Norris'">
+            {{message.value | date: 'short'}}
           </div>
         </div>
         </div>

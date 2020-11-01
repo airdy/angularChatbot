@@ -8,6 +8,7 @@ import {Chuck} from "../models/chuck.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat-view',
@@ -27,7 +28,8 @@ export class ChatViewComponent implements OnInit {
               private _chuckService: ChuckService,
               private route: ActivatedRoute,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -83,7 +85,6 @@ export class ChatViewComponent implements OnInit {
     this.messageFormGroup = this.formBuilder.group({
       value: ""
     })
-
   }
 
   //submit form handler which adds new inputed message and getting bot message from external API
@@ -91,7 +92,7 @@ export class ChatViewComponent implements OnInit {
     this.chatsService.addMessages(this.messageFormGroup.value, this.botsId)
       .subscribe(
         messages => {
-          console.log(`Saved , ${JSON.stringify(messages)}`);
+          console.log(`Saved, ${JSON.stringify(messages)}`);
           this.messageFormGroup.reset({name: ''});
         },
         catchError(err => {
@@ -99,19 +100,27 @@ export class ChatViewComponent implements OnInit {
           return throwError(err);
         })
       )
-    setTimeout(() => this.jokeAdding(), 5000);
+    setTimeout(() => {
+      this.jokeAdding();
+      this.toastr.success("You have new message")
+    }, 10000);
   }
   jokeAdding() {
     this._chuckService.getJoke()
       .subscribe(
         data => {
-          this.chatsService.addJoke(data, this.botsId)
+          this.chatsService.addMessages(data, this.botsId)
             .subscribe(
               jokes => {
-                console.log(`Joke added , ${JSON.stringify(jokes)}`);
+                console.log(`Joke added, ${JSON.stringify(jokes)}`);
               }
             )
         }
       )
+  }
+  ngOnDestroy() {
+    if (this.chatsService.chatRefresher$) {
+      this.chatsService.chatRefresher$.unsubscribe();
+    }
   }
 }
